@@ -1,15 +1,3 @@
-# Version 5.0 (latest): deepfry_v5.0.py
-#   by Joe Martinez   (12/20/2022)
-#
-# Description:
-#   An algorithm that increases the saturation of a video
-#   depending on the mic input volume. Algorithm resign from
-#   previous version
-#
-# Requirements:
-#   Python Version 3.X (atleast 3.0)
-#   A video file
-
 import os
 import sys
 import errno
@@ -19,14 +7,11 @@ import sounddevice as sd
 import cv2
 
 
-# Chech user's Python version 3.X
+
 if sys.version[:1] != "3":
     raise Exception("Python version is not 3.X (atleast 3.0)")
 
-# Ask user for VIDEO filename
 filename = input("\nPlease enter the name of the video file (i.e. timvid.mp4):\n")
-
-# Check for VIDEO file's existance
 if os.path.exists(filename):
     vid_FILE = os.path.abspath(filename)    # If so, store file's directory
     print("\n\t'%s' file found!" % filename)
@@ -34,18 +19,18 @@ else:                                       # If not, raise error
     raise FileNotFoundError(errno.ENOENT, os.strerror(errno.ENOENT), filename)
 
 
-# Check for file 'deepfry_volume.txt' existance
-if os.path.exists("deepfry_volume.txt"):
-    sound_FILE = os.path.abspath("deepfry_volume.txt")  # If so, store 'deepfry_volume.txt' directory
-    f = open(sound_FILE, "r+")                          #   &    clears previous data 
+# Check for file 'sensoryProject.txt' existance
+if os.path.exists("sensoryProject.txt"):
+    sound_FILE = os.path.abspath("sensoryProject.txt")
+    f = open(sound_FILE, "r+")                          #   clears previous data 
     f.truncate(0)
 else:
-    f = open("deepfry_volume.txt", "x")                 # If not, creates new text file
-    sound_FILE = os.path.abspath("deepfry_volume.txt")  #   &     store file's directory
+    f = open("sensoryProject.txt", "x")
+    sound_FILE = os.path.abspath("sensoryProject.txt")
 
 f.close()
 test_volumn = None
-print("\n\t'deepfry_volume.txt' CLEARED/INITIALIZED")
+print("\n\t'sensoryProject.txt' CLEARED/INITIALIZED")
 
 
 
