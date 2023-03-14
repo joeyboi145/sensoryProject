@@ -24,12 +24,12 @@ else:
 
 # Check for file 'sensoryProject.txt' existance
 if os.path.exists("sensoryProject.txt"):
-    sound_FILE = os.path.abspath("sensoryProject.txt")
+    sound_FILE = os.path.relpath("sensoryProject.txt")
     f = open(sound_FILE, "r+")
     f.truncate(0)
 else:
     f = open("sensoryProject.txt", "x")
-    sound_FILE = os.path.abspath("sensoryProject.txt")
+    sound_FILE = os.path.relpath("sensoryProject.txt")
 
 f.close()
 print("\n\t'sensoryProject.txt' CLEARED/INITIALIZED")

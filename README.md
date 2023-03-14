@@ -6,4 +6,4 @@ This project was done in collaboration with a Stony Brook art student. Credits t
 
 # Requirements:
   - Python Version 3.X (atleast 3.0)
-  - Any mp4 video file
+  - Any mp4 video file in the same directory 
