@@ -67,7 +67,7 @@ def get_volume():
 
 
 
-# FUNCTION: loops through the frames of a video and applies the deepfry aspect depending on volume
+# FUNCTION: loops through the frames of a video and applies the saturation aspect depending on volume
 #   Input:  Video file director
 def vidLoop(filepath):
     stream.start()      # Start audio stream (stream) on the first loop
@@ -98,14 +98,14 @@ def vidLoop(filepath):
 
 # FUNCTION:  processes the volumn input data
 #   Input: the mic input data for volumn
-def frame_callback(indata, frames, time, status, volume):
+def frame_callback(indata, frames, time, status):
     sensitivity = 10    # 10 is default
 
     # Takes the incoming data and converts it to volume data
     volume_norm = np.linalg.norm(indata) * sensitivity
 
     f = open(sound_FILE, "r+")      
-    f.write(str(volume_norm))                   # Stores volume data in 'deepfry_volume.txt'
+    f.write(str(volume_norm))                   # Stores volume data in 'sensoryProject.txt'
     f.close()
     print("|" * int(volume_norm))               # Volume terminal visual
 
