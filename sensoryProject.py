@@ -98,7 +98,7 @@ def vidLoop(filepath):
 
 # FUNCTION:  processes the volumn input data
 #   Input: the mic input data for volumn
-def frame_callback(indata, frames, time, status):
+def frame_callback(indata, frames, time, status, volume):
     sensitivity = 10    # 10 is default
 
     # Takes the incoming data and converts it to volume data
