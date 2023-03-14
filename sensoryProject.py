@@ -13,7 +13,7 @@ vid_FILE = None
 sound_File = None
 
 
-# Retrive User Video
+# Retrive user video
 filename = input("\nPlease enter the name of the video file (i.e. timvid.mp4):\n")
 if os.path.exists(filename):
     vid_FILE = os.path.abspath(filename)
@@ -32,7 +32,6 @@ else:
     sound_FILE = os.path.abspath("sensoryProject.txt")
 
 f.close()
-test_volumn = None
 print("\n\t'sensoryProject.txt' CLEARED/INITIALIZED")
 
 
@@ -50,40 +49,46 @@ def get_next_frame(filepath):
     yield None
 
 
+# FUNCTION: retrieves volume data from 'sensoryProject.txt'
+#   output: float value for volume
+def get_volume():
+    volume = 1
+    f = open(sound_FILE, "r")
+    try:
+        volume = f.readlines()[0]
+        volume = volume.strip()
+    except:
+        print("ERROR: VOLUME READ FAILURE")
+    f.close()
+
+    volume = float(volume)
+    if volume < 1:  volume = 1      # Volume input minimum of 1
+    return volume
+
+
+
 # FUNCTION: loops through the frames of a video and applies the deepfry aspect depending on volume
 #   Input:  Video file director
 def vidLoop(filepath):
-    volume = 1
     stream.start()      # Start audio stream (stream) on the first loop
     frames = get_next_frame(filepath)
     frame = frames.__next__()
 
     while(frames != None):
-        # Retrieves mic volume input
-        f = open(sound_FILE, "r")
-        try:
-            volume = f.readlines()[0]
-            volume = volume.strip()
-        except:
-            print("ERROR: VOLUME READ FAILURE")
-        f.close()
-
-        volume = float(volume)
-        if volume < 1:  volume = 1      # If mic input value is < 1, set = 1
-        #print(volume)
-
         # Increases the saturation of frame by mic input value (volume) 
+        volume = get_volume()
         hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
         hsv[:,:,1] = hsv[:,:,1] * volume
         frame = cv2.cvtColor(hsv, cv2.COLOR_HSV2BGR)
 
         frame = cv2.resize(frame, (1280, 720))          # Resize frame
-        cv2.imshow('Project - Deepfry', frame)          # Display frame
+        cv2.imshow('sensoryProject', frame)             # Display frame
         frame = frames.__next__()                       # Grab next frame
 
-        if cv2.waitKey(10) == 27:           # Check if 'Esc' was hit
+        # if 'Esc' is hit, stop Audio Stream and exit program
+        if cv2.waitKey(10) == 27:
             print("\nEXITING...")
-            stream.stop()                   # if so, stop Audio Stream and exit program
+            stream.stop()
             return
 
     # RESTART the video if the end is reached
