@@ -3,5 +3,4 @@ An algorithm that increases the saturation of a video depending on live mic inpu
 
 
 # Requirements:
-  Python Version 3.X (atleast 3.0)
-  A video file
+  Python Version 3.X (atleast 3.0) and an mp4 video file
