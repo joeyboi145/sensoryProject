@@ -1,6 +1,5 @@
 import os
 import sys
-import errno
 import numpy as np
 import sounddevice as sd
 import cv2
@@ -60,6 +59,7 @@ def process_volume():
     if volume < 1:  volume = 1          # Volume input minimum of 1
     print("|" * int(volume))            # Volume terminal visual
     return volume
+
 
 
 # FUNCTION: loops through the frames of a video and applies the saturation aspect depending on volume
