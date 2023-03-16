@@ -7,7 +7,7 @@ import cv2
 
 vid_FILE = None
 stream = None
-CHUNK = 1024
+CHUNK = 2048
 
 
 # FUNCTION: Finds user video
@@ -49,14 +49,15 @@ def get_frames():
 
 # FUNCTION: Takes incoming stream data and converts it to float values
 #   Output: a float that represents the volume of the mic input
-def process_volume():
-    volume = 1
-    sensitivity = 12    # 12 is default
+def process_volume(prev_volume):
+    volume = prev_volume
+    sensitivity = 10    # 10 is default
 
     # Takes the incoming data and converts it to volume data
-    indata, overflow = stream.read(CHUNK)
-    volume = np.linalg.norm(indata) * sensitivity
-    if volume < 1:  volume = 1          # Volume input minimum of 1
+    if (stream.read_available >= CHUNK):
+        indata, overflow = stream.read(CHUNK)
+        volume = np.linalg.norm(indata) * sensitivity
+        if volume < 1:  volume = 1      # Volume minimum of 1
     print("|" * int(volume))            # Volume terminal visual
     return volume
 
@@ -66,6 +67,7 @@ def process_volume():
 def vidLoop():
     stream.start()
     frames = get_frames()
+    volume = 1
 
     while True:
         frame = frames.__next__()
@@ -75,7 +77,7 @@ def vidLoop():
             frame = frames.__next__()
             print("\nRESTART...\n")
 
-        volume = process_volume()
+        volume = process_volume(volume)
         hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
         hsv[:,:,1] = hsv[:,:,1] * volume
         frame = cv2.cvtColor(hsv, cv2.COLOR_HSV2BGR)
